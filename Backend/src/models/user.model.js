@@ -157,7 +157,7 @@ userSchema.methods.generateRefreshToken = async function () {
 const User = mongoose.model(
   "User", // model name used in code
   userSchema,
-  "ytuser" // collection name in MongoDB
+  "AuthUser" // collection name in MongoDB
 );
 
 // -----------------------------
