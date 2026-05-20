@@ -6,6 +6,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 const app = express();
+import userRouter from "./routes/auth.route.js"
 
 // CORS: allow frontend origin; credentials: true so cookies work cross-origin
 app.use(
@@ -27,6 +28,11 @@ app.get("/", (req, res) => {
     message: " Auth API is running",
   });
 });
+
+
+// API routes.
+app.use("/api/v1/auth", userRouter);
+
 
 
 export default app;
