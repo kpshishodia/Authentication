@@ -1,7 +1,7 @@
 import User from "../models/user.model.js"
 import generateAccessAndRefreshTokens from "../utils/generateTokens.js"
 
-const registerUserController = async () =>{
+const registerUserController = async (req , res) =>{
     try{
 
     /// ----------------------------------------------------
@@ -69,7 +69,7 @@ const registerUserController = async () =>{
     // 4 . find if user already exist
 
     const existingUser = await User.findOne({
-        email: email.toLowercase()
+        email: email.toLowerCase()
     })
 
     if(existingUser){
@@ -81,10 +81,10 @@ const registerUserController = async () =>{
     // 5 . create user in DB
 
    const user = await User.create({
-    userName : userName.toLowercase(),
-    email: email.toLowercase(),
+    userName : userName.toLowerCase(),
+    email: email.toLowerCase(),
     password: password,
-    role: role.toLowercase
+    role: role.toLowerCase()
    })
 
    console.log("user created in Db:" , user)
@@ -99,6 +99,43 @@ const registerUserController = async () =>{
     // - saves refresh token in DB
     const { accessToken, refreshToken } =
       await generateAccessAndRefreshTokens(user._id);
+
+      console.log("accesstoken: ",  accessToken )
+      console.log("refreshToken:" , refreshToken)
+
+       // 7. Remove sensitive data from response
+    // ----------------------------------------------------
+
+    // Read user again and exclude password before sending response.
+    const createdUser = await User.findById(user._id).select("-password");
+
+     
+    // ------------------------------------------------
+    // 8. Cookie options
+    // ------------------------------------------------
+
+    // Cookie options:
+    // - httpOnly blocks JS access (XSS protection)
+    // - secure=false for local/dev HTTP (set true in production HTTPS)
+    // - sameSite strict helps reduce CSRF risk
+    const options = {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+    };
+
+
+    // 9 . send cookies with response 
+
+    return res.status(201)
+    .cookie("accessToken" , accessToken , options)
+    .cookie("refreshtoken" , refreshToken , options)
+    .json({
+      message: "User successfully registered",
+      user: createdUser,
+      accessToken,
+      refreshToken
+    });
 
 
     }catch(error){
