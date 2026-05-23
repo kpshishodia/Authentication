@@ -1,4 +1,4 @@
-import User from "../models/user.model";
+import User from "../models/user.model.js";
 import generateAccessAndRefreshTokens from "../utils/generateTokens.js"
 
 const loginUsercontroller = async (req,res) => {
@@ -25,7 +25,7 @@ const loginUsercontroller = async (req,res) => {
 
     // 4 . compare password get method from user model
 
-const isMatch = ispasswordCorrect.User(password)
+const isMatch = await user.isPasswordCorrect(password)
 
 if (!isMatch){
     return res.status(400).json({
