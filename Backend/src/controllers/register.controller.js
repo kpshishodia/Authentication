@@ -1,6 +1,6 @@
-import User from "../../models/user.model.js"
-import ValidateSignUpData from "../../utils/RegisterValidation.js"
-import {uploadOnCloudinary} from "../../services/cloudinaryService.js"
+import User from "../models/user.model.js";
+import ValidateSignUpData from "../utils/RegisterValidation.js"
+import {uploadOnCloudinary} from "../services/cloudinaryService.js"
 
 const registerUserController = async (req,res) => {
 try{
@@ -20,11 +20,11 @@ if (Number.isNaN(req.body.age)) {
 
     // 2 . validate allowed fields with request fields from client(user)
 
-    const allowedFeilds = ["userName", "email", "password", "gender", "age"];
+   const allowedFields = ["userName","age","email","password","gender"]
     const requestFields = Object.keys(req.body)
 
     const isValid = requestFields.every((feild)=>{
-        return allowedFeilds.includes(feild)
+        return allowedFields.includes(feild)
     })
 
     if(!isValid){
@@ -76,7 +76,7 @@ if (Number.isNaN(req.body.age)) {
     
     if(!avatarUploadedResult || !coverImageUploadedResult){
         return res.status(400).json({
-            message : "Error uploading loac files we are getting from multer to cloudnary.",
+            message : "Error uploading local files we are getting from multer to cloudnary.",
         })
     }
 
@@ -181,3 +181,4 @@ console.log("After save");
 }
 
 export default  registerUserController;
+

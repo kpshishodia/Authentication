@@ -105,7 +105,7 @@ const userSchema = new Schema(
         type: String,
         enum: ["user" , "admin"],
         default: "user",
-        required: true,
+        
     },
     
     // 🔄 Store refresh token in DB
