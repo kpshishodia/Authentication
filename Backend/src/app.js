@@ -1,11 +1,23 @@
 import express from 'express'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
+import cors from "cors";
 import userRouter from "./routes/auth.route.js"
 const app = express()
 app.use(express.json())
-app.use(cookieParser())
 app.use(morgan("dev"))
+// CORS: allow frontend origin; credentials: true so cookies work cross-origin
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    credentials: true,
+  })
+);
+
+// Parse JSON / urlencoded bodies and read cookies (needed for JWT auth)
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(cookieParser());
 
 // Health check — no auth required
 app.get("/", (req, res) => {

@@ -7,11 +7,11 @@ const logOutController = async (req,res) => {
     const user = await User.findByIdAndUpdate(
         req.user._id,
         {
-            // $set: {
-            //     refreshToken: 1,
-            // }
+            $set: {
+                refreshToken: 1,
+            }
 
-            $unset: { refreshToken: 1 }
+            
         },
         {
             new: true
@@ -25,14 +25,13 @@ const logOutController = async (req,res) => {
 
     console.log("LogOut - user:", user) // for debugging
 
-    // 2 . cookieOptions 
-
-    const clearCookieOptions = {
+// 2. Cookie options must match the options used when setting the cookies
+       const clearCookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    sameSite: "strict", // Matches login/register
+    path: "/",          // Matches login/register
 };
-
 //  3 . return respone and clear cookies
 
 return res.status(200)

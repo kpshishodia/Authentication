@@ -9,11 +9,10 @@ const getProfileController = async (req,res) => {
 
         const user = req.user
 
-        if(!user){
-            return res.status(400).json({
-              message: "Bad request",
-              error: error.message,
-            })
+       if (!user) {
+            return res.status(401).json({
+                message: "Unauthorized request. User not found.",
+            });
         }
         
         // 2 . return respone with user body

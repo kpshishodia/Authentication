@@ -2,6 +2,7 @@ import express from "express";
 import registerUserController from "../controllers/register.controller.js";
 import loginUserController from "../controllers/login.controller.js";
 import logOutController from "../controllers/logout.controller.js";
+import getProfileController from "../controllers/getProfile.controller.js";
 import fileUpload from '../middlewares/multer.js';
 import verifyJWT from "../middlewares/verifyJWT.js";
 const userRouter = express.Router()
@@ -24,6 +25,11 @@ loginUserController
 userRouter.route("/logOut").post(
   verifyJWT ,
    logOutController
+)
+
+userRouter.route("/profile").get(
+  verifyJWT ,
+  getProfileController
 )
 
 

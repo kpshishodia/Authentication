@@ -47,19 +47,22 @@ const loginUserController = async(req,res) => {
 
     // 6 . cokkie options 
 
-    const refreshTokenCookieOptions = {
+const refreshTokenCookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "strict",
+  path: "/", // <-- Add path here
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 };
 
- const accessTokenCookieOptions = {
+const accessTokenCookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: "strict",
+  path: "/", // <-- Add path here
   maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
 };
+
 
 
 // 7 . save refresh token in DB
