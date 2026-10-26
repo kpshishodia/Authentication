@@ -111,7 +111,35 @@ const userSchema = new Schema(
     // 🔄 Store refresh token in DB
 refreshToken: {
   type: String,
-}
+},
+
+verifyOtp : {
+  type: String,
+  default: ""
+},
+
+verifyOtpExpireAt: {
+  type: Number,
+  default: 0
+},
+
+isAccountVerified: {
+  type: Boolean,
+  default: false
+},
+
+resetOtp: {
+  type: String,
+  default: ""
+},
+
+resetOtpExpireAt: {
+  type: Number,
+  default: 0
+},
+
+
+
   },
   {
     // 🕒 Automatically adds createdAt & updatedAt
