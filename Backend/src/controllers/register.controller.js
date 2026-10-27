@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import ValidateSignUpData from "../utils/RegisterValidation.js"
 import {uploadOnCloudinary} from "../services/cloudinaryService.js"
-import transporter from "../services/nodeMailer.js";
+// import transporter from "../services/nodeMailer.js";
 
 const registerUserController = async (req,res) => {
 try{
@@ -163,16 +163,16 @@ console.log("After save");
     console.log("createdUser :", createdUser)
 
 
-    // sending welcome email
+    // // sending welcome email
 
-    const mailOptions = {
-        from: process.env.SENDER_EMAIL,
-        to: email,
-        subject: "Welcome to my app.",
-        text: `Welcome : ${email}`
-    }
+    // const mailOptions = {
+    //     from: process.env.SENDER_EMAIL,
+    //     to: email,
+    //     subject: "Welcome to my app.",
+    //     text: `Welcome : ${email}`
+    // }
 
-    await transporter.sendMail(mailOptions);
+    // await transporter.sendMail(mailOptions);
 
     // 12 . return respone with cookie
 
