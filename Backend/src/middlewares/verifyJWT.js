@@ -1,57 +1,30 @@
+import User from "../models/user.model.js";
 import jwt from "jsonwebtoken"
-import User from "../models/user.model.js"
 
-const verifyJWT = async(req,res,next) =>{
-    
-    try{
-        // 1 . get user info from token exist in cookie in req.body
+const verifyJWT = async (req, res, next) => {
+  try {
+    const accessToken = req.cookies?.accessToken;
 
-    const accessToken = req.cookies.accessToken
-
-    console.log("accessToken:", accessToken )
-
-     // If token missing
     if (!accessToken) {
-      return res.status(401).json({
-        message: "Unauthorized access",
-      });
+      return res.status(401).json({ success: false, message: "Unauthorized access" });
     }
 
-    // 2 . verify the token
+    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
 
-    const decodeUser =  jwt.verify(
-        accessToken,
-        process.env.ACCESS_TOKEN_SECRET
-    )
+    const user = await User.findById(decoded?._id).select(
+      "-refreshToken -password"
+    );
 
-    console.log("decodeUser:", decodeUser)
-
-    // 3 . find user from DB  and remove sensitive info like refreshToken and password
-
-    const user = await User.findById(decodeUser?._id).select(
-        "-refreshToken -password"
-    )
-
-    if(!user){
-        return res.status(400).json({
-          message: "Error fetching user from DB.",  
-        })
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Invalid access token" });
     }
 
-    console.log("user:", user)
-
-    // 4 . attach user to request
-
-req.user = user    
-     // Continue to next middleware/controller
+    req.user = user;
     next();
-
-    }catch(error){
-        return res.status(400).json({
-            message: "Bad request",
-        })
-    }
-}
+  } catch (error) {
+    // jwt.verify throws for expired or tampered tokens
+    return res.status(401).json({ success: false, message: "Invalid or expired token" });
+  }
+};
 
 export default verifyJWT;
-
