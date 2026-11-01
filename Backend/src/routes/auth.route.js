@@ -5,6 +5,8 @@ import logOutController from "../controllers/logout.controller.js";
 import getProfileController from "../controllers/getProfile.controller.js";
 import sendVerifyOtpController from "../controllers/sendVerifyOtp.controller.js"
 import verifyEmailController from "../controllers/verifyEmail.controller.js"
+import isAuthentiCatedController from "../controllers/isAuthentiCated.controller.js"
+import sendResetOtpController from "../controllers/sendResetOtp.controller.js"
 import fileUpload from '../middlewares/multer.js';
 import verifyJWT from "../middlewares/verifyJWT.js";
 const userRouter = express.Router()
@@ -44,5 +46,13 @@ userRouter.route("/verifyemail").post(
   verifyEmailController
 )
 
+userRouter.route("/isauth").post(
+  verifyJWT ,
+  isAuthentiCatedController
+)
+
+userRouter.route("/resetOtp").post(
+  sendResetOtpController
+)
 
 export default userRouter;

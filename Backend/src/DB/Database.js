@@ -19,7 +19,7 @@ const URL = (`${MONGO_URI}/${DB_NAME}`)
 const ConnectToDB = async () => {
   try {
     // Debug log to verify your URL (remove in production if you want)
-    console.log("Mongo URL:", URL);
+    // console.log("Mongo URL:", URL);
 
     await mongoose.connect(URL);
 

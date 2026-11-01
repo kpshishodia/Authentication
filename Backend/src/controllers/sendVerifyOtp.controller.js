@@ -1,5 +1,6 @@
 
 import transporter from "../services/nodeMailer.js";
+import bcrypt from "bcrypt"
 
 const sendVerifyOtpController = async (req, res) => {
   try {
@@ -16,7 +17,8 @@ const sendVerifyOtpController = async (req, res) => {
     // 6 digit OTP, stored as a string
     const otp = String(Math.floor(100000 + Math.random() * 900000));
 
-    user.verifyOtp = otp;
+    const hashOtp = bcrypt.hash(otp , 10)
+    user.verifyOtp = hashOtp;
     user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
 
     // req.user is a real mongoose document, so save() works.
