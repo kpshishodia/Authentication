@@ -18,7 +18,7 @@ try{
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
   user.resetOtp = await bcrypt.hash(otp, 10);   // store hashed
-  user.resetOtpExpiry = Date.now() + 10 * 60 * 1000; // 10 min
+  user.resetOtpExpireAt = Date.now() + 10 * 60 * 1000; // 10 min
   await user.save({ validateBeforeSave: false });
 
    await transporter.sendMail({
@@ -29,7 +29,10 @@ try{
     });
 
 
-
+return res.json({
+      success: true,
+      message: "Reset OTP sent to your email.",
+    });
 
 } catch (error) {
     console.error(error);
