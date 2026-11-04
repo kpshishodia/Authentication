@@ -7,6 +7,7 @@ import sendVerifyOtpController from "../controllers/sendVerifyOtp.controller.js"
 import verifyEmailController from "../controllers/verifyEmail.controller.js"
 import isAuthentiCatedController from "../controllers/isAuthentiCated.controller.js"
 import sendResetOtpController from "../controllers/sendResetOtp.controller.js"
+import resetPasswordController from "../controllers/resetPassword.controller.js"
 import fileUpload from '../middlewares/multer.js';
 import verifyJWT from "../middlewares/verifyJWT.js";
 const userRouter = express.Router()
@@ -22,6 +23,14 @@ userRouter.route("/register").post(
 
 userRouter.route("/login").post(
 loginUserController
+)
+
+userRouter.route("/resetOtp").post(
+  sendResetOtpController
+)
+
+userRouter.route("/resetpassword").post(
+  resetPasswordController
 )
 
 // Private (controlled) routes - verifyJWT
@@ -51,8 +60,6 @@ userRouter.route("/isauth").post(
   isAuthentiCatedController
 )
 
-userRouter.route("/resetOtp").post(
-  sendResetOtpController
-)
+
 
 export default userRouter;
