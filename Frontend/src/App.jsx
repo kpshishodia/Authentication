@@ -1,11 +1,22 @@
 import React from 'react'
+import { Routes , Route } from 'react-router-dom'
+import Home from './pages/home'
+import Login from './pages/Login'
+import EmailVerify from './pages/EmailVerify'
+import ResetPassword from './pages/ResetPassword'
+
+
 
 const App = () => {
   return (
-   <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <h1 className="text-4xl font-bold text-white">
-        Hello Tailwind CSS!
-      </h1>
+   <div>
+    <Routes>
+      <Route path='/' element={<Home/>} />
+      <Route path='/login' element={<Login/>} />
+      <Route path='/email-verify' element={<EmailVerify/>} />
+      <Route path='/reset-password' element={<ResetPassword/>} />
+     
+    </Routes>
     </div>
   )
 }
