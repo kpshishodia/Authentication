@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 // The frontend origin must match the actual frontend URL.
 app.use(
     cors({
-        origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+        origin: process.env.CORS_ORIGIN || 'http://localhost:8011',
         credentials: true,
     })
 );
